@@ -2,11 +2,15 @@ import { ResourceLoader } from 'jsdom';
 import { ConfigurableResourceLoader } from './configurable-resource-loader';
 import * as urlMatchesModule from './url-matches';
 import sinon, { SinonSandbox, SinonStub } from 'sinon';
+import { Matcher, UrlMatcher } from './url-matches';
 
 describe('Configurable Resource Loader', () => {
   let sandbox: SinonSandbox;
   let parentFetch: SinonStub;
   let urlMatches: SinonStub;
+
+  type TestMatcher = Record<keyof UrlMatcher, string>;
+  //   ^?
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -39,10 +43,10 @@ describe('Configurable Resource Loader', () => {
 
   describe(`whitelist only`, () => {
     it('calls super.fetch for whitelisted urls', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
-        return matcher.startsWith('whitelist');
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
+        return matcher.url.startsWith('whitelist');
       });
-      const options = { whitelist: ['whitelist 1'] };
+      const options = { whitelist: [{ url: 'whitelist 1' }] };
       const subject = new ConfigurableResourceLoader(options);
 
       subject.fetch('url', {});
@@ -51,23 +55,25 @@ describe('Configurable Resource Loader', () => {
     });
 
     it('iterates every whitelist element to look for a match', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
         return false;
       });
-      const options = { whitelist: ['whitelist 1', 'whitelist 2'] };
+      const options = {
+        whitelist: [{ url: 'whitelist 1' }, { url: 'whitelist 2' }],
+      };
       const subject = new ConfigurableResourceLoader(options);
 
       subject.fetch('url', {});
 
-      expect(urlMatches.calledWith('url', 'whitelist 1')).toEqual(true);
-      expect(urlMatches.calledWith('url', 'whitelist 2')).toEqual(true);
+      expect(urlMatches.calledWith('url', {url: 'whitelist 1'})).toEqual(true);
+      expect(urlMatches.calledWith('url', {url: 'whitelist 2'})).toEqual(true);
     });
 
     it('returns null for urls that are not whitelisted', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
-        return !matcher.startsWith('whitelist');
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
+        return !matcher.url.startsWith('whitelist');
       });
-      const options = { whitelist: ['whitelist 1'] };
+      const options = { whitelist: [{ url: 'whitelist 1' }] };
       const subject = new ConfigurableResourceLoader(options);
 
       const actual = subject.fetch('url', {});
@@ -79,12 +85,12 @@ describe('Configurable Resource Loader', () => {
 
   describe(`whitelist and blacklist`, () => {
     it('returns null when there are no matches', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
         return false;
       });
       const options = {
-        whitelist: ['whitelist 1'],
-        blacklist: ['blacklist 1'],
+        whitelist: [{ url: 'whitelist 1' }],
+        blacklist: [{ url: 'blacklist 1' }],
       };
       const subject = new ConfigurableResourceLoader(options);
 
@@ -95,12 +101,12 @@ describe('Configurable Resource Loader', () => {
     });
 
     it('returns null for blacklisted urls', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
-        return matcher.startsWith('blacklist');
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
+        return matcher.url.startsWith('blacklist');
       });
       const options = {
-        whitelist: ['whitelist 1'],
-        blacklist: ['blacklist 1'],
+        whitelist: [{ url: 'whitelist 1' }],
+        blacklist: [{ url: 'blacklist 1' }],
       };
       const subject = new ConfigurableResourceLoader(options);
 
@@ -111,12 +117,12 @@ describe('Configurable Resource Loader', () => {
     });
 
     it('returns null when whitelist AND blacklist match', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
         return true;
       });
       const options = {
-        whitelist: ['whitelist 1'],
-        blacklist: ['blacklist 1'],
+        whitelist: [{ url: 'whitelist 1' }],
+        blacklist: [{ url: 'blacklist 1' }],
       };
       const subject = new ConfigurableResourceLoader(options);
 
@@ -129,10 +135,10 @@ describe('Configurable Resource Loader', () => {
 
   describe(`blacklist only`, () => {
     it('returns null if a url is in the blacklist', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
-        return matcher.startsWith('blacklist');
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
+        return matcher.url.startsWith('blacklist');
       });
-      const options = { blacklist: ['blacklist 1'] };
+      const options = { blacklist: [{ url: 'blacklist 1' }] };
       const subject = new ConfigurableResourceLoader(options);
 
       const actual = subject.fetch('url', {});
@@ -142,23 +148,25 @@ describe('Configurable Resource Loader', () => {
     });
 
     it('iterates every blacklist element to look for a match', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
         return false;
       });
-      const options = { blacklist: ['blacklist 1', 'blacklist 2'] };
+      const options = {
+        blacklist: [{ url: 'blacklist 1' }, { url: 'blacklist 2' }],
+      };
       const subject = new ConfigurableResourceLoader(options);
 
       subject.fetch('url', {});
 
-      expect(urlMatches.calledWith('url', 'blacklist 1')).toEqual(true);
-      expect(urlMatches.calledWith('url', 'blacklist 2')).toEqual(true);
+      expect(urlMatches.calledWith('url', {url: 'blacklist 1'})).toEqual(true);
+      expect(urlMatches.calledWith('url', {url: 'blacklist 2'})).toEqual(true);
     });
 
     it('calls super.fetch if a url is NOT in the blacklist', () => {
-      urlMatches.callsFake((url: string, matcher: string) => {
+      urlMatches.callsFake((url: string, matcher: TestMatcher) => {
         return false;
       });
-      const options = { blacklist: ['blacklist 1'] };
+      const options = { blacklist: [{ url: 'blacklist 1' }] };
       const subject = new ConfigurableResourceLoader(options);
 
       subject.fetch('url', {});

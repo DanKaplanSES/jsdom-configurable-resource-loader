@@ -1,21 +1,28 @@
-export type Matcher = string | RegExp;
+export type UrlMatcher = {
+  url: string | RegExp;
+};
+export type Matcher = UrlMatcher;
 
 export function urlMatches(url: string, matcher: Matcher): boolean {
-  switch (typeof matcher) {
-    case 'string':
-      if (matcher === '') {
-        throw new Error(
-          `Invalid matcher: Tried to match '${url}' against a blank string.`
-        );
-      }
-      return url === matcher;
-    default:
-      if (isBlankRegExp(matcher)) {
-        throw new Error(
-          `Invalid matcher: Tried to match '${url}' against a blank RegExp.`
-        );
-      }
-      return matcher.test(url);
+  if ('url' in matcher) {
+    switch (typeof matcher.url) {
+      case 'string':
+        if (matcher.url === '') {
+          throw new Error(
+            `Invalid matcher: Tried to match '${url}' against a blank string.`
+          );
+        }
+        return matcher.url === url;
+      default:
+        if (isBlankRegExp(matcher.url)) {
+          throw new Error(
+            `Invalid matcher: Tried to match '${url}' against a blank RegExp.`
+          );
+        }
+        return matcher.url.test(url);
+    }
+  } else {
+    throw new Error(`Unknown matcher: ${matcher}`);
   }
 }
 
