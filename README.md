@@ -59,4 +59,4 @@ This is also great, but it's a lot of code to write and customize. Chances are, 
 For now, the automated tests are the best way to learn how to use this package. In particular: 
 
 - [How URL matching works](https://github.com/DanKaplanSES/jsdom-configurable-resource-loader/blob/main/src/url-matches.spec.ts)
-- [How whitelists/blacklists interact](https://github.com/DanKaplanSES/jsdom-configurable-resource-loader/blob/main/src/url-matches.spec.ts)
+- [How whitelists/blacklists interact](https://github.com/DanKaplanSES/jsdom-configurable-resource-loader/blob/main/src/configurable-resource-loader.spec.ts)
