@@ -1,7 +1,7 @@
 {
   "name": "jsdom-configurable-resource-loader",
   "description": "A JSDOM ResourceLoader with configuration options to whitelist and blacklist resources.",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
