@@ -1,8 +1,8 @@
 import {
   ResourceLoader,
-  ResourceLoaderConstructorOptions,
-  FetchOptions,
-  AbortablePromise,
+  type ResourceLoaderConstructorOptions,
+  type FetchOptions,
+  type AbortablePromise,
 } from 'jsdom';
 import { Matcher, urlMatches } from './url-matches';
 
