@@ -6,7 +6,6 @@ export default defineConfig({
   outExtension: (ctx)=> {
     return {
         js: ctx.format === "esm" ? ".mjs" : ".cjs",
-        dts: ctx.format === "esm" ? ".d.mts" : ".d.cts"
     }
   },
   dts: true, // Generate declaration file (.d.ts)
