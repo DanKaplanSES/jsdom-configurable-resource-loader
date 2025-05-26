@@ -34,9 +34,16 @@
     }
   ],
   "include": [],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  }
+//   "ts-node": {
+//     "compilerOptions": {
+//       "module": "CommonJS"
+//     }
+//   },
+//   "ts-node": {
+//     "transpileOnly": true,
+//     "esm": true,
+//     "compilerOptions": {
+//       "module": "NodeNext",
+//     }
+//   }
 }

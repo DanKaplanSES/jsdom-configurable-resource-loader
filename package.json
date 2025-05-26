@@ -3,13 +3,16 @@
   "description": "A JSDOM ResourceLoader with configuration options to whitelist and blacklist resources.",
   "version": "0.0.18",
   "homepage": "https://github.com/DanKaplanSES/jsdom-configurable-resource-loader",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "type": "commonjs",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "files": [
     "dist"
   ],
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
   "scripts": {
     "compile-typescript": "npm run build",
     "build": "tsup-node",
@@ -28,21 +31,21 @@
   "devDependencies": {
     "@types/jasmine": "5.1.8",
     "@types/jsdom": "21.1.7",
-    "@types/sinon": "^17.0.4",
+    "@types/sinon": "17.0.4",
     "@typescript-eslint/eslint-plugin": "6.17.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.4.0",
     "jasmine": "5.7.1",
-    "sinon": "^20.0.0",
+    "sinon": "20.0.0",
     "ts-node": "10.9.2",
     "tslib": "2.8.1",
     "tsup": "8.5.0",
     "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "jsdom": "* >= 13",
-    "canvas": "^3"
+    "canvas": "^3",
+    "jsdom": "* >= 13"
   },
   "peerDependenciesMeta": {
     "canvas": {
