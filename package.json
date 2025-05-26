@@ -1,11 +1,11 @@
 {
   "name": "jsdom-configurable-resource-loader",
   "description": "A JSDOM ResourceLoader with configuration options to whitelist and blacklist resources.",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "homepage": "https://github.com/DanKaplanSES/jsdom-configurable-resource-loader",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.cts",
   "license": "MIT",
   "files": [
     "dist"
