@@ -5,6 +5,10 @@
   "homepage": "https://github.com/DanKaplanSES/jsdom-configurable-resource-loader",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
   "types": "dist/index.d.cts",
   "license": "MIT",
   "files": [
