@@ -30,6 +30,7 @@
     "@types/jsdom": "21.1.7",
     "@types/sinon": "^17.0.4",
     "@typescript-eslint/eslint-plugin": "6.17.0",
+    "canvas": "3.1.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.4.0",
@@ -41,12 +42,15 @@
     "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "jsdom": "* >= 13",
-    "canvas": "^3"
+    "canvas": "^3",
+    "jsdom": "* >= 13"
   },
   "peerDependenciesMeta": {
     "canvas": {
       "optional": true
     }
+  },
+  "overrides": {
+    "parse5": "<7.3.0"
   }
 }
