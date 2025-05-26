@@ -2,8 +2,7 @@
   "spec_dir": "",
   "spec_files": ["**/*.spec.ts"],
   "helpers": [
-    "spec/support/logger.cjs",
-    "spec/support/type-check.cjs"
+    "spec/support/logger.ts"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": true
